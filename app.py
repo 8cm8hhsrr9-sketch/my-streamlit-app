@@ -122,3 +122,29 @@ if st.session_state.page == "result":
     selected_type, movies = st.session_state.result_data
 
     with st.spinner("🎬 당신과 닮은 영화 주인공을 찾고 있습니다..."):
+        time.sleep(1.5)
+
+    st.balloons()
+
+    st.title("🎬 분석 결과")
+    st.write(f"당신은 **{selected_type}** 주인공과 가장 닮아 있어요.")
+    st.divider()
+
+    for movie in movies:
+        col1, col2 = st.columns([1, 3])
+
+        with col1:
+            if movie.get("poster_path"):
+                st.image("https://image.tmdb.org/t/p/w500" + movie["poster_path"], use_column_width=True)
+
+        with col2:
+            st.markdown(f"### {movie.get('title')}")
+            st.write(f"⭐ 평점: {movie.get('vote_average')}")
+            st.write(movie.get("overview", "줄거리 정보가 없습니다."))
+            st.caption(f"💡 추천 이유: 이 영화의 주인공은 **{selected_type}** 성향을 가진 인물입니다.")
+
+        st.divider()
+
+    if st.button("🔁 다시 테스트하기"):
+        st.session_state.page = "test"
+        st.rerun()
